@@ -11,7 +11,7 @@ public static class GrpcClientUtil
     {
         try
         {
-            using var _ = new TcpClient(hostUri, portNumber);
+            using var client = new TcpClient(hostUri, portNumber);
             return true;
         }
         catch (SocketException)

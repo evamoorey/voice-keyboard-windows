@@ -5,14 +5,47 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <CoreCompileDependsOn>$(CoreCompileDependsOn);Protobuf_Compile</CoreCompileDependsOn>
     </PropertyGroup>
 
     <ItemGroup>
-      <Page Update="Views\MainWindow.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <XamlRuntime>Wpf</XamlRuntime>
-        <SubType>Designer</SubType>
-      </Page>
+        <Page Update="Views\MainWindow.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Resource Include="Server\*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Costura.Fody" Version="5.8.0-alpha0098">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Google.Protobuf" Version="3.22.1"/>
+        <PackageReference Include="Grpc.Net.Client" Version="2.52.0"/>
+        <PackageReference Include="Grpc.Tools" Version="2.53.0-pre2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Prism.Core" Version="8.1.97"/>
+        <PackageReference Include="Prism.Wpf" Version="8.1.97"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\app_control.proto" GrpcServices="Client"/>
+        <Protobuf Include="Protos\commands.proto" GrpcServices="Client"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Models\"/>
+        <Folder Include="ViewModels\"/>
+        <Folder Include="Views\"/>
     </ItemGroup>
 
 </Project>
