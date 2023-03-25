@@ -1,120 +1,41 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
-using System.Windows.Input;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using VoiceKeyboard.GrpcUtils;
+﻿using System.Diagnostics;
+using Grpc.Core;
+using Grpc.Net.Client;
+using Prism.Mvvm;
 using VoiceKeyboard.Models;
 
 namespace VoiceKeyboard.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : BindableBase
 {
-    private readonly CommandsGrpcClient commandsClient;
-    private readonly AppControlGrpcClient appControlClient;
-
-    private CommandModel commandModel;
-    private AppStateModel appStateModel;
-    private PathModel pathModel;
-    private ObservableCollection<CommandModel> commands;
-
-    public CommandModel CommandModel
-    {
-        get => commandModel;
-        set
-        {
-            commandModel = value;
-            RaisePropertyChanged();
-        }
-    }
-
-    public AppStateModel AppStateModel
-    {
-        get => appStateModel;
-        set
-        {
-            appStateModel = value;
-            RaisePropertyChanged();
-        }
-    }
-
-    public PathModel PathModel
-    {
-        get => pathModel;
-        set
-        {
-            pathModel = value;
-            RaisePropertyChanged();
-        }
-    }
-
-    public ObservableCollection<CommandModel> CommandsList
-    {
-        get => commands;
-        set
-        {
-            commands = value;
-            RaisePropertyChanged();
-        }
-    }
-
+    private TestModel testModel;
 
     public MainWindowViewModel()
     {
-        commandsClient = CommandsGrpcClient.GetInstance();
-        appControlClient = AppControlGrpcClient.GetInstance();
-        CreateModels();
-        CreateCommands();
-        UpdateCommandsList();
-    }
+        Trace.WriteLine("creating client");
 
-    private void CreateModels()
-    {
-        CommandModel = new CommandModel("Команда", "Хоткей");
-        PathModel = new PathModel("Путь для импорта/экспорта");
-        AppStateModel = new AppStateModel(true);
-    }
-
-
-    public ICommand AddCommandCommand { get; private set; }
-    public ICommand DeleteCommandCommand { get; private set; }
-    public ICommand ChangeMicrophoneStatusCommand { get; private set; }
-    public ICommand ImportCommandsCommand  { get; private set; }
-    public ICommand ExportCommandsCommand  { get; private set; }
-
-
-    private void CreateCommands()
-    {
-        AddCommandCommand = new RelayCommand(() =>
+        using var channel = GrpcChannel.ForAddress("http://localhost:50033");
+        var client = new Commands.CommandsClient(channel);
+        try
         {
-            commandsClient.AddCommand(CommandModel.Command, CommandModel.Hotkey);
-            UpdateCommandsList();
-        });
-        DeleteCommandCommand = new RelayCommand(() =>
-        {
-            commandsClient.DeleteCommand(CommandModel.Command);
-            UpdateCommandsList();
-        });
-
-        ChangeMicrophoneStatusCommand = new RelayCommand(
-            () => appControlClient.ChangeMicrophoneStatus(AppStateModel.IsMicrophoneOn));
-
-        ImportCommandsCommand = new RelayCommand(() =>
-        {
-            commandsClient.ImportCommands(PathModel.Path);
-            UpdateCommandsList();
-        });
-        ExportCommandsCommand  = new RelayCommand(
-            () => commandsClient.ExportCommands(PathModel.Path));
-    }
-
-    private void UpdateCommandsList()
-    {
-        var t = commandsClient.GetCommands();
-        CommandsList = new ObservableCollection<CommandModel>();
-        foreach (var pair in t)
-        {
-            CommandsList.Add(new CommandModel(pair.Key, pair.Value));
+            var reply = client.AddCommand(
+                new AddCommandRequest { Command = "включи штуку", Hotkey = "ctrl+l" });
         }
+        catch (RpcException ex)
+        {
+            Trace.WriteLine(ex.StatusCode);
+            Trace.WriteLine(ex.Status.Detail);
+        }
+
+        Debug.WriteLine("ha ha ho");
+
+        testModel = new TestModel();
+        testModel.Title = "This Is Prism Example";
+    }
+
+    public TestModel TestModel
+    {
+        get => testModel;
+        set => SetProperty(ref testModel, value);
     }
 }
