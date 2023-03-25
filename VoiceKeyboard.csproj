@@ -27,25 +27,25 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Google.Protobuf" Version="3.22.1"/>
-        <PackageReference Include="Grpc.Net.Client" Version="2.52.0"/>
+        <PackageReference Include="Google.Protobuf" Version="3.22.1" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.52.0" />
         <PackageReference Include="Grpc.Tools" Version="2.53.0-pre2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Prism.Core" Version="8.1.97"/>
-        <PackageReference Include="Prism.Wpf" Version="8.1.97"/>
+        <PackageReference Include="Prism.Core" Version="8.1.97" />
+        <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="Protos\app_control.proto" GrpcServices="Client"/>
-        <Protobuf Include="Protos\commands.proto" GrpcServices="Client"/>
+        <Protobuf Include="Protos\app_control.proto" GrpcServices="Client" />
+        <Protobuf Include="Protos\commands.proto" GrpcServices="Client" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Models\"/>
-        <Folder Include="ViewModels\"/>
-        <Folder Include="Views\"/>
+        <Folder Include="Models\" />
+        <Folder Include="ViewModels\" />
+        <Folder Include="Views\" />
     </ItemGroup>
 
 </Project>

@@ -6,7 +6,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock Text="{Binding TestModel.Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
+        <Button Grid.Column="0" Grid.Row="0" Content="Добавить команду" Command="{Binding AddCommandCommand}"></Button>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CommandModel.Command,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CommandModel.Hotkey,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
     </Grid>
 </Window>

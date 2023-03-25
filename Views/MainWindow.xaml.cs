@@ -55,7 +55,7 @@ public partial class MainWindow : Window
             errPingCount++;
             if (errPingCount >= 5)
             {
-                MessageBox.Show("Can't start local sever for VoiceKeyboard app");
+                MessageBox.Show("Невозможно запустить локальный сервер приложения");
                 Environment.Exit(-1);
             }
         }

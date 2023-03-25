@@ -1,41 +1,28 @@
-﻿using System.Diagnostics;
-using Grpc.Core;
-using Grpc.Net.Client;
+﻿using Prism.Commands;
 using Prism.Mvvm;
+using VoiceKeyboard.GrpcUtils;
 using VoiceKeyboard.Models;
 
 namespace VoiceKeyboard.ViewModels;
 
-public class MainWindowViewModel : BindableBase
+public partial class MainWindowViewModel : BindableBase
 {
-    private TestModel testModel;
+    private CommandModel commandModel;
+
+    private readonly CommandsGprcClient commandsClient;
+
+    private DelegateCommand? addCommandCommand;
+
 
     public MainWindowViewModel()
     {
-        Trace.WriteLine("creating client");
-
-        using var channel = GrpcChannel.ForAddress("http://localhost:50033");
-        var client = new Commands.CommandsClient(channel);
-        try
-        {
-            var reply = client.AddCommand(
-                new AddCommandRequest { Command = "включи штуку", Hotkey = "ctrl+l" });
-        }
-        catch (RpcException ex)
-        {
-            Trace.WriteLine(ex.StatusCode);
-            Trace.WriteLine(ex.Status.Detail);
-        }
-
-        Debug.WriteLine("ha ha ho");
-
-        testModel = new TestModel();
-        testModel.Title = "This Is Prism Example";
+        commandsClient = CommandsGprcClient.GetInstance();
+        commandModel = new CommandModel("Команда", "Хоткей");
     }
 
-    public TestModel TestModel
+    public CommandModel CommandModel
     {
-        get => testModel;
-        set => SetProperty(ref testModel, value);
+        get => commandModel;
+        set => SetProperty(ref commandModel, value);
     }
 }

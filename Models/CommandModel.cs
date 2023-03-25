@@ -1,8 +1,8 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Prism.Mvvm;
 
 namespace VoiceKeyboard.Models;
 
-public class CommandModel : ObservableObject
+public class CommandModel : BindableBase
 {
     public CommandModel(string command, string hotkey)
     {
@@ -15,7 +15,7 @@ public class CommandModel : ObservableObject
     public string Command
     {
         get => command;
-        set => Set(() => Command, ref command, value);
+        set => SetProperty(ref command, value);
     }
 
     private string hotkey;
@@ -23,11 +23,6 @@ public class CommandModel : ObservableObject
     public string Hotkey
     {
         get => hotkey;
-        set => Set(() => Hotkey, ref hotkey, value);
-    }
-
-    public override string ToString()
-    {
-        return $"{Command}: {Hotkey}";
+        set => SetProperty(ref hotkey, value);
     }
 }
