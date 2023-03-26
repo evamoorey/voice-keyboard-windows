@@ -1,28 +1,43 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using VoiceKeyboard.GrpcUtils;
 using VoiceKeyboard.Models;
 
 namespace VoiceKeyboard.ViewModels;
 
-public partial class MainWindowViewModel : BindableBase
+public partial class MainWindowViewModel : ViewModelBase
 {
+    private readonly CommandsGrpcClient commandsClient;
+    private readonly AppControlGrpcClient appControlClient;
+
     private CommandModel commandModel;
 
-    private readonly CommandsGrpcClient commandsClient;
-
-    private DelegateCommand? addCommandCommand;
+    public CommandModel CommandModel
+    {
+        get => commandModel;
+        set
+        {
+            commandModel = value;
+            RaisePropertyChanged();
+        }
+    }
 
 
     public MainWindowViewModel()
     {
         commandsClient = CommandsGrpcClient.GetInstance();
-        commandModel = new CommandModel("Команда", "Хоткей");
+        appControlClient = AppControlGrpcClient.GetInstance();
+        CreateModels();
+        CreateCommands();
     }
 
-    public CommandModel CommandModel
+    private void CreateModels()
     {
-        get => commandModel;
-        set => SetProperty(ref commandModel, value);
+        CommandModel = new CommandModel("Команда", "Хоткей");
+    }
+
+    private void CreateCommands()
+    {
+        AddCommandCommand = new RelayCommand(AddCommand);
     }
 }

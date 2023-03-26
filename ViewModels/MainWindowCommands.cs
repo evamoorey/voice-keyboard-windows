@@ -1,15 +1,13 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using System.Windows.Input;
 
 namespace VoiceKeyboard.ViewModels;
 
 public partial class MainWindowViewModel
 {
-    public DelegateCommand AddCommandCommand =>
-        addCommandCommand ??= new DelegateCommand(ExecuteAddCommandCommand);
+    public ICommand AddCommandCommand { get; private set; }
 
-    private void ExecuteAddCommandCommand()
+    private void AddCommand()
     {
-        commandsClient.AddCommand(commandModel.Command, commandModel.Hotkey);
+        commandsClient.AddCommand(CommandModel.Command, CommandModel.Hotkey);
     }
 }
