@@ -35,7 +35,7 @@ public partial class MainWindow : Window
 
         var info =
             new ProcessStartInfo("C:\\Users\\dm1tr\\Desktop\\VoiceKeyboard\\Server\\vk_server.exe");
-        info.Arguments = "-p windows -c C:\\Users\\dm1tr\\Desktop\\VoiceKeyboard\\Server\\commands.json";
+        info.Arguments = "-p windows";
         info.RedirectStandardOutput = false;
         info.RedirectStandardInput = false;
         info.CreateNoWindow = true;
