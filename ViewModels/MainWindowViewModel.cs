@@ -9,14 +9,14 @@ public partial class MainWindowViewModel : BindableBase
 {
     private CommandModel commandModel;
 
-    private readonly CommandsGprcClient commandsClient;
+    private readonly CommandsGrpcClient commandsClient;
 
     private DelegateCommand? addCommandCommand;
 
 
     public MainWindowViewModel()
     {
-        commandsClient = CommandsGprcClient.GetInstance();
+        commandsClient = CommandsGrpcClient.GetInstance();
         commandModel = new CommandModel("Команда", "Хоткей");
     }
 

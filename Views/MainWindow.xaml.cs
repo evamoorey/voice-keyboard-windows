@@ -48,8 +48,8 @@ public partial class MainWindow : Window
     }
 
     private void WaitServerForStart()
-    {
-        var errPingCount = 0;
+    { 
+        int errPingCount = 0;
         while (!GrpcClientUtil.PingServer(GrpcClientUtil.ServerHost, GrpcClientUtil.ServerPort))
         {
             errPingCount++;
