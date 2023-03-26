@@ -1,14 +1,17 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 
 namespace VoiceKeyboard.GrpcUtils;
 
-public class CommandsGrpcClient: GrpcClient
+public class CommandsGrpcClient : GrpcClient
 {
     private readonly Commands.CommandsClient client;
 
     private static CommandsGrpcClient? instance;
 
-    private CommandsGrpcClient(): base(GrpcClientUtil.ServerHost, GrpcClientUtil.ServerPort)
+    private CommandsGrpcClient() : base(GrpcClientUtil.ServerHost, GrpcClientUtil.ServerPort)
     {
         client = new Commands.CommandsClient(Channel);
     }
@@ -29,7 +32,7 @@ public class CommandsGrpcClient: GrpcClient
 
         TryMakeRequest(Action);
     }
-    
+
     public void DeleteCommand(string command)
     {
         void Action()
@@ -40,5 +43,21 @@ public class CommandsGrpcClient: GrpcClient
         }
 
         TryMakeRequest(Action);
+    }
+
+    public IDictionary<string, string> GetCommands()
+    {
+        try
+        {
+            GetCommandsResponse resp = client.GetCommands(new Empty());
+            return resp.Commands;
+        }
+        catch (RpcException ex)
+        {
+            MessageBox.Show(ex.Status.StatusCode == StatusCode.Unavailable
+                ? "Ошибка локального сервера"
+                : ex.Status.Detail);
+            return new Dictionary<string, string>();
+        }
     }
 }

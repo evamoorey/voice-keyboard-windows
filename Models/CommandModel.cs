@@ -25,4 +25,9 @@ public class CommandModel : ObservableObject
         get => hotkey;
         set => Set(() => Hotkey, ref hotkey, value);
     }
+
+    public override string ToString()
+    {
+        return $"{Command}: {Hotkey}";
+    }
 }
