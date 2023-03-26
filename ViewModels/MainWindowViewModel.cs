@@ -1,11 +1,12 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Windows.Input;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using VoiceKeyboard.GrpcUtils;
 using VoiceKeyboard.Models;
 
 namespace VoiceKeyboard.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase
 {
     private readonly CommandsGrpcClient commandsClient;
     private readonly AppControlGrpcClient appControlClient;
@@ -36,9 +37,15 @@ public partial class MainWindowViewModel : ViewModelBase
         CommandModel = new CommandModel("Команда", "Хоткей");
     }
 
+
+    public ICommand AddCommandCommand { get; private set; }
+    public ICommand DeleteCommandCommand { get; private set; }
+
     private void CreateCommands()
     {
-        AddCommandCommand = new RelayCommand(AddCommand);
-        DeleteCommandCommand = new RelayCommand(DeleteCommand);
+        AddCommandCommand = new RelayCommand(() =>
+            commandsClient.AddCommand(CommandModel.Command, CommandModel.Hotkey));
+        DeleteCommandCommand = new RelayCommand(() => commandsClient.DeleteCommand(CommandModel.Command));
+        
     }
 }
