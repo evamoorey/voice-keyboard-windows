@@ -13,6 +13,7 @@ public class MainWindowViewModel : ViewModelBase
     private readonly AppControlGrpcClient appControlClient;
 
     private CommandModel commandModel;
+    private AppStateModel appStateModel;
     private ObservableCollection<CommandModel> commands;
 
     public CommandModel CommandModel
@@ -21,6 +22,16 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             commandModel = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public AppStateModel AppStateModel
+    {
+        get => appStateModel;
+        set
+        {
+            appStateModel = value;
             RaisePropertyChanged();
         }
     }
@@ -48,11 +59,13 @@ public class MainWindowViewModel : ViewModelBase
     private void CreateModels()
     {
         CommandModel = new CommandModel("Команда", "Хоткей");
+        AppStateModel = new AppStateModel(true);
     }
 
 
     public ICommand AddCommandCommand { get; private set; }
     public ICommand DeleteCommandCommand { get; private set; }
+    public ICommand ChangeMicrophoneStatusCommand { get; private set; }
 
 
     private void CreateCommands()
@@ -67,6 +80,9 @@ public class MainWindowViewModel : ViewModelBase
             commandsClient.DeleteCommand(CommandModel.Command);
             UpdateCommandsList();
         });
+
+        ChangeMicrophoneStatusCommand = new RelayCommand(
+            () => appControlClient.ChangeMicrophoneStatus(AppStateModel.IsMicrophoneOn));
     }
 
     private void UpdateCommandsList()
@@ -77,6 +93,5 @@ public class MainWindowViewModel : ViewModelBase
         {
             CommandsList.Add(new CommandModel(pair.Key, pair.Value));
         }
-
     }
 }

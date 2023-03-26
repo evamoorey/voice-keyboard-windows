@@ -17,4 +17,14 @@ public class AppControlGrpcClient : GrpcClient
     {
         return instance ??= new AppControlGrpcClient();
     }
+
+    public void ChangeMicrophoneStatus(bool on)
+    {
+        void Action()
+        {
+            client.ChangeMicrophoneStatus(new ChangeMicrophoneStatusRequest { On = on });
+        }
+
+        TryMakeRequest(Action);
+    }
 }
