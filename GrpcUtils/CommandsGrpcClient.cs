@@ -29,4 +29,16 @@ public class CommandsGrpcClient: GrpcClient
 
         TryMakeRequest(Action);
     }
+    
+    public void DeleteCommand(string command)
+    {
+        void Action()
+        {
+            client.DeleteCommand(new DeleteCommandRequest { Command = command });
+
+            MessageBox.Show("Команда удалена");
+        }
+
+        TryMakeRequest(Action);
+    }
 }

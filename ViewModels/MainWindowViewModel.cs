@@ -39,5 +39,6 @@ public partial class MainWindowViewModel : ViewModelBase
     private void CreateCommands()
     {
         AddCommandCommand = new RelayCommand(AddCommand);
+        DeleteCommandCommand = new RelayCommand(DeleteCommand);
     }
 }
