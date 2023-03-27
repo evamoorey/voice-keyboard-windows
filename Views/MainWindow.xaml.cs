@@ -16,6 +16,7 @@ namespace VoiceKeyboard.Views;
 public partial class MainWindow : Window
 {
     private Forms.NotifyIcon? icon;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -40,7 +41,7 @@ public partial class MainWindow : Window
         var p = new Process();
 
         var info =
-            new ProcessStartInfo("C:\\Users\\dm1tr\\Desktop\\VoiceKeyboard\\Server\\vk_server.exe");
+            new ProcessStartInfo("Server/vk_server.exe");
         info.Arguments = "-p windows";
         info.RedirectStandardOutput = false;
         info.RedirectStandardInput = false;
@@ -62,23 +63,35 @@ public partial class MainWindow : Window
         {
             return;
         }
-        
+
         Stream iconStream = rs.Stream;
         icon.Icon = new System.Drawing.Icon(iconStream);
         icon.Visible = true;
         icon.Text = "Voice Keyboard";
         icon.DoubleClick += (_, _) => OpenWindow();
-        
+
         icon.ContextMenuStrip = new Forms.ContextMenuStrip();
         icon.ContextMenuStrip.Items.Add("Открыть", null, (_, _) => OpenWindow());
         icon.ContextMenuStrip.Items.Add("Закрыть", null, (_, _) => Close());
 
-        
+
         this.icon = icon;
+    }
+
+    protected override void OnStateChanged(EventArgs e)
+    {
+        if (WindowState == WindowState.Minimized)
+        {
+            Hide();
+        }
+        
+        base.OnStateChanged(e);
     }
 
     private void OpenWindow()
     {
+        Visibility = Visibility.Visible;
+        Show();
         WindowState = WindowState.Normal;
         Activate();
     }

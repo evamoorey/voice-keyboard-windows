@@ -7,6 +7,7 @@
         <UseWPF>true</UseWPF>
         <UseWindowsForms>true</UseWindowsForms>
         <CoreCompileDependsOn>$(CoreCompileDependsOn);Protobuf_Compile</CoreCompileDependsOn>
+        <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,9 +24,9 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>
         <None Remove="Server\vk_server.exe" />
-        <Resource Include="Server\vk_server.exe">
+        <Content Include="Server\vk_server.exe">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Resource>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
