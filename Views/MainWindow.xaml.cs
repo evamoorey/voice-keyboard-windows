@@ -42,7 +42,7 @@ public partial class MainWindow : Window
         info.UseShellExecute = false;
         p.StartInfo = info;
 
-        p.Start();
+        // p.Start();
 
         WaitServerForStart();
     }

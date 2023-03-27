@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -14,6 +15,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private CommandModel commandModel;
     private AppStateModel appStateModel;
+    private PathModel pathModel;
     private ObservableCollection<CommandModel> commands;
 
     public CommandModel CommandModel
@@ -32,6 +34,16 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             appStateModel = value;
+            RaisePropertyChanged();
+        }
+    }
+
+    public PathModel PathModel
+    {
+        get => pathModel;
+        set
+        {
+            pathModel = value;
             RaisePropertyChanged();
         }
     }
@@ -59,6 +71,7 @@ public class MainWindowViewModel : ViewModelBase
     private void CreateModels()
     {
         CommandModel = new CommandModel("Команда", "Хоткей");
+        PathModel = new PathModel("Путь для импорта/экспорта");
         AppStateModel = new AppStateModel(true);
     }
 
@@ -66,6 +79,8 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand AddCommandCommand { get; private set; }
     public ICommand DeleteCommandCommand { get; private set; }
     public ICommand ChangeMicrophoneStatusCommand { get; private set; }
+    public ICommand ImportCommandsCommand  { get; private set; }
+    public ICommand ExportCommandsCommand  { get; private set; }
 
 
     private void CreateCommands()
@@ -83,6 +98,14 @@ public class MainWindowViewModel : ViewModelBase
 
         ChangeMicrophoneStatusCommand = new RelayCommand(
             () => appControlClient.ChangeMicrophoneStatus(AppStateModel.IsMicrophoneOn));
+
+        ImportCommandsCommand = new RelayCommand(() =>
+        {
+            commandsClient.ImportCommands(PathModel.Path);
+            UpdateCommandsList();
+        });
+        ExportCommandsCommand  = new RelayCommand(
+            () => commandsClient.ExportCommands(PathModel.Path));
     }
 
     private void UpdateCommandsList()

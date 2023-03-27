@@ -45,6 +45,31 @@ public class CommandsGrpcClient : GrpcClient
         TryMakeRequest(Action);
     }
 
+    public void ImportCommands(string path)
+    {
+        void Action()
+        {
+            client.ImportCommands(new ImportCommandsRequest { Path = path });
+
+            MessageBox.Show("Команды импортированы");
+        }
+
+        TryMakeRequest(Action);
+    }
+
+    public void ExportCommands(string path)
+    {
+        void Action()
+        {
+            client.ExportCommands(new ExportCommandsRequest { Path = path });
+
+            MessageBox.Show("Команды экспортированы");
+        }
+
+        TryMakeRequest(Action);
+    }
+
+
     public IDictionary<string, string> GetCommands()
     {
         try
