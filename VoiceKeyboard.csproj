@@ -5,6 +5,7 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <UseWindowsForms>true</UseWindowsForms>
         <CoreCompileDependsOn>$(CoreCompileDependsOn);Protobuf_Compile</CoreCompileDependsOn>
     </PropertyGroup>
 
@@ -17,8 +18,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Server\*">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <None Remove="Resources\logo.ico" />
+        <Resource Include="Resources\logo.ico">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <None Remove="Server\vk_server.exe" />
+        <Resource Include="Server\vk_server.exe">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>
     </ItemGroup>
 
@@ -30,6 +36,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MvvmLight" Version="5.4.1.1" />
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>

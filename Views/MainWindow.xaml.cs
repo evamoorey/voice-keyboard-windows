@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using VoiceKeyboard.GrpcUtils;
 using VoiceKeyboard.ViewModels;
+using Forms = System.Windows.Forms;
+using Application = System.Windows.Application;
 
 namespace VoiceKeyboard.Views;
 
@@ -12,10 +15,12 @@ namespace VoiceKeyboard.Views;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private Forms.NotifyIcon? icon;
     public MainWindow()
     {
         InitializeComponent();
         StartServer();
+        CreateIcon();
 
         DataContext = new MainWindowViewModel();
 
@@ -25,6 +30,7 @@ public partial class MainWindow : Window
     private void OnShutdown(object? sender, EventArgs e)
     {
         ShutdownServer();
+        DisposeIcon();
     }
 
     private void StartServer()
@@ -42,13 +48,48 @@ public partial class MainWindow : Window
         info.UseShellExecute = false;
         p.StartInfo = info;
 
-        // p.Start();
+        p.Start();
 
         WaitServerForStart();
     }
 
+    private void CreateIcon()
+    {
+        Forms.NotifyIcon icon = new Forms.NotifyIcon();
+        var rs = Application
+            .GetResourceStream(new Uri("pack://application:,,,/VoiceKeyboard;component/Resources/logo.ico"));
+        if (rs == null)
+        {
+            return;
+        }
+        
+        Stream iconStream = rs.Stream;
+        icon.Icon = new System.Drawing.Icon(iconStream);
+        icon.Visible = true;
+        icon.Text = "Voice Keyboard";
+        icon.DoubleClick += (_, _) => OpenWindow();
+        
+        icon.ContextMenuStrip = new Forms.ContextMenuStrip();
+        icon.ContextMenuStrip.Items.Add("Открыть", null, (_, _) => OpenWindow());
+        icon.ContextMenuStrip.Items.Add("Закрыть", null, (_, _) => Close());
+
+        
+        this.icon = icon;
+    }
+
+    private void OpenWindow()
+    {
+        WindowState = WindowState.Normal;
+        Activate();
+    }
+
+    private void DisposeIcon()
+    {
+        icon?.Dispose();
+    }
+
     private void WaitServerForStart()
-    { 
+    {
         int errPingCount = 0;
         while (!GrpcClientUtil.PingServer(GrpcClientUtil.ServerHost, GrpcClientUtil.ServerPort))
         {

@@ -31,5 +31,6 @@
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CommandModel.Hotkey,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <ListBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding CommandsList}"/>
         <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding PathModel.Path,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <!-- <Image Source="/Resources/logo.jpg"></Image> -->
     </Grid>
 </Window>
