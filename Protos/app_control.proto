@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "VoiceKeyboard";
+
+package app_control;
+
+service AppControl {
+  rpc ChangeMicrophoneStatus(ChangeMicrophoneStatusRequest) returns (google.protobuf.Empty);
+}
+
+message ChangeMicrophoneStatusRequest {
+  bool on = 1;
+}

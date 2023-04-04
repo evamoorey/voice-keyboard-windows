@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "VoiceKeyboard";
+
+package commands;
+
+service Commands {
+  rpc AddCommand(AddCommandRequest) returns (google.protobuf.Empty);
+  rpc DeleteCommand(DeleteCommandRequest) returns (google.protobuf.Empty);
+  rpc GetCommands(google.protobuf.Empty) returns (GetCommandsResponse);
+  rpc ImportCommands(ImportCommandsRequest) returns (google.protobuf.Empty);
+  rpc ExportCommands(ExportCommandsRequest) returns (google.protobuf.Empty);
+}
+
+message AddCommandRequest {
+  string command = 1;
+  string hotkey = 2;
+}
+
+message DeleteCommandRequest {
+  string command = 1;
+}
+
+message GetCommandsResponse{
+  map<string, string> commands = 1;
+}
+
+message ImportCommandsRequest{
+  string path = 1;
+}
+
+message ExportCommandsRequest{
+  string path = 1;
+}
