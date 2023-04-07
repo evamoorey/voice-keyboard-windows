@@ -19,16 +19,6 @@ public class MainWindowViewModel : ViewModelBase
     private PathModel pathModel;
     private ObservableCollection<CommandModel> commands;
 
-    public CommandModel CommandModel
-    {
-        get => commandModel;
-        set
-        {
-            commandModel = value;
-            RaisePropertyChanged();
-        }
-    }
-
     public AppStateModel AppStateModel
     {
         get => appStateModel;
@@ -71,14 +61,11 @@ public class MainWindowViewModel : ViewModelBase
 
     private void CreateModels()
     {
-        CommandModel = new CommandModel("Команда", "Хоткей");
         PathModel = new PathModel("Путь для импорта/экспорта");
         AppStateModel = new AppStateModel(true);
     }
 
 
-    public ICommand AddCommandCommand { get; private set; }
-    public ICommand DeleteCommandCommand { get; private set; }
     public ICommand ChangeMicrophoneStatusCommand { get; private set; }
     public ICommand ImportCommandsCommand  { get; private set; }
     public ICommand ExportCommandsCommand  { get; private set; }
@@ -86,20 +73,8 @@ public class MainWindowViewModel : ViewModelBase
 
     private void CreateCommands()
     {
-        AddCommandCommand = new RelayCommand(() =>
-        {
-            commandsClient.AddCommand(CommandModel.Command, CommandModel.Hotkey);
-            UpdateCommandsList();
-        });
-        DeleteCommandCommand = new RelayCommand(() =>
-        {
-            commandsClient.DeleteCommand(CommandModel.Command);
-            UpdateCommandsList();
-        });
-
         ChangeMicrophoneStatusCommand = new RelayCommand(
             () => appControlClient.ChangeMicrophoneStatus(AppStateModel.IsMicrophoneOn));
-
         ImportCommandsCommand = new RelayCommand(() =>
         {
             commandsClient.ImportCommands(PathModel.Path);

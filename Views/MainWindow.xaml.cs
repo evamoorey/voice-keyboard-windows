@@ -131,4 +131,9 @@ public partial class MainWindow : Window
     {
         new AddCommandWindow().ShowDialog();
     }
+
+    private void CommandsButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        new CommandsWindow().ShowDialog();
+    }
 }

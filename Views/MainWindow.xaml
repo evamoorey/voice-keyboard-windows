@@ -4,41 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Voice Keyboard" Height="450" Width="800"
+        Title="Голосовая клавиатура" Height="200" Width="400"
         Icon="/Resources/logo.ico">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical">
+            <Label>Голосовая клавиатура  v1.0.0</Label>
+            <StackPanel Orientation="Horizontal">
+                <Button Click="AddCommandButton_OnClick">Добавить команду</Button>
+                <Button Click="CommandsButton_OnClick">Введённые команды</Button>
+            </StackPanel>
 
-        <Button Grid.Column="0" Grid.Row="1" Content="Удалить команду" Command="{Binding DeleteCommandCommand}"></Button>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Импорт команд" Command="{Binding ImportCommandsCommand}"></Button>
+                <TextBox Text="{Binding PathModel.Path,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <Button Content="Экспорт команд" Command="{Binding ExportCommandsCommand}"></Button>
+                <TextBox Text="{Binding PathModel.Path,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
 
-        <Label Margin="10" Grid.Column="0" Grid.Row="4" Content="Микрофон включен"></Label>
-        <CheckBox Grid.Column="0" Grid.Row="4" IsChecked="{Binding AppStateModel.IsMicrophoneOn}"
-                  Command="{Binding ChangeMicrophoneStatusCommand}">
-        </CheckBox>
-        
-        <Button Name="AddCommandButton" Click="AddCommandButton_OnClick" Grid.Column="1" Grid.Row="0">Добавить команду</Button>
-
-        
-
-        <ListBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding CommandsList}" />
-
-
-        <StackPanel Grid.Column="0" Grid.Row="2">
-            <Button Content="Импорт команд" Command="{Binding ImportCommandsCommand}"></Button>
-            <TextBox Text="{Binding PathModel.Path,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Экспорт команд" Command="{Binding ExportCommandsCommand}"></Button>
-            <TextBox Text="{Binding PathModel.Path,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            <Label Margin="10" Content="Микрофон включен"></Label>
+            <CheckBox IsChecked="{Binding AppStateModel.IsMicrophoneOn}"
+                      Command="{Binding ChangeMicrophoneStatusCommand}">
+            </CheckBox>
         </StackPanel>
-
         <!-- <Image Source="/Resources/logo.jpg"></Image> -->
     </Grid>
 </Window>
