@@ -16,15 +16,15 @@
 
             <StackPanel Orientation="Horizontal">
                 <Button Content="Импорт команд" Command="{Binding ImportCommandsCommand}"></Button>
-                <TextBox Text="{Binding PathModel.Path,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <Button Content="Экспорт команд" Command="{Binding ExportCommandsCommand}"></Button>
-                <TextBox Text="{Binding PathModel.Path,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
-            <Label Margin="10" Content="Микрофон включен"></Label>
-            <CheckBox IsChecked="{Binding AppStateModel.IsMicrophoneOn}"
-                      Command="{Binding ChangeMicrophoneStatusCommand}">
-            </CheckBox>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0,0,0,0" Content="Микрофон включен"></Label>
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding AppStateModel.IsMicrophoneOn}"
+                          Command="{Binding ChangeMicrophoneStatusCommand}">
+                </CheckBox>
+            </StackPanel>
         </StackPanel>
         <!-- <Image Source="/Resources/logo.jpg"></Image> -->
     </Grid>
