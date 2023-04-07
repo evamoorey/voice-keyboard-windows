@@ -126,4 +126,9 @@ public partial class MainWindow : Window
             p.WaitForExit();
         }
     }
+
+    private void AddCommandButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        new AddCommandWindow().ShowDialog();
+    }
 }

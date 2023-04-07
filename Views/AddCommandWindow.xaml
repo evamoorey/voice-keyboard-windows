@@ -1,0 +1,29 @@
+﻿<Window x:Class="VoiceKeyboard.Views.AddCommandWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:VoiceKeyboard.Views"
+        mc:Ignorable="d"
+        Title="Voice Keyboard" Height="200" Width="400"
+        Icon="/Resources/logo.ico">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center">
+            <Label Margin="0,20,0,10" HorizontalAlignment="Center">Добавить команду</Label>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                    <Label Margin="-2,0,0,0">Сочетание клавиш</Label>
+                    <TextBox Text="{Binding CommandModel.Hotkey,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Width="122" Height="30" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                    <Label Margin="-2,0,0,0">Команда</Label>
+                    <TextBox Text="{Binding CommandModel.Command,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                             Width="122" Height="30" Margin="0,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+            <Button HorizontalAlignment="Right" Content="Добавить команду" Margin="5, 12,0,0"
+                    Command="{Binding AddCommandCommand}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
