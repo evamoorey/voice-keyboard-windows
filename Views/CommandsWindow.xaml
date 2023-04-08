@@ -3,19 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:VoiceKeyboard.Views"
         mc:Ignorable="d"
-        Title="Голосовая клавиатура" Height="268" Width="400"
-        Icon="/Resources/logo.ico">
+        Title="Голосовая клавиатура" FontWeight="DemiBold" Height="268" Width="400"
+        Icon="/Resources/logo.ico" Background="#363636" Foreground="#36363636">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Label Margin="0,20,0,10" HorizontalAlignment="Center">Сохранённые сочетания</Label>
-            <ListBox Name="CommandsListBox"
+            <Label Margin="0,20,0,10" HorizontalAlignment="Center" Foreground="White" FontWeight="DemiBold">Сохранённые сочетания</Label>
+            <ListBox Name="CommandsListBox" Background="#363636" Foreground="White"
                      BorderThickness="0" Margin="10,0,10,0" MaxHeight="120" Height="150"
                      ItemsSource="{Binding CommandsList}" />
-            <Button HorizontalAlignment="Left" Margin="10,12,0,0" Content="Удалить"
-                    Command="{Binding DeleteCommandCommand}"
+            <Button HorizontalAlignment="Center" Margin="0,12,0,0" Foreground="White" FontWeight="DemiBold"
+                    Content="Удалить" Background="#4a4a4a" BorderBrush="#5e5e5e" BorderThickness="1"
+                    Command="{Binding DeleteCommandCommand}" Width="70" Height="20"
                     CommandParameter="{Binding ElementName=CommandsListBox, Path=SelectedItem}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3" />
+                    </Style>
+                </Button.Resources>
             </Button>
         </StackPanel>
     </Grid>

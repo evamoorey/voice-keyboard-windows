@@ -38,8 +38,6 @@ public class CommandsGrpcClient : GrpcClient
         void Action()
         {
             client.DeleteCommand(new DeleteCommandRequest { Command = command });
-
-            MessageBox.Show("Команда удалена");
         }
 
         TryMakeRequest(Action);

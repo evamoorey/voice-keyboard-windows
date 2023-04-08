@@ -3,27 +3,48 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:VoiceKeyboard.Views"
         mc:Ignorable="d"
-        Title="Голосовая клавиатура" Height="190" Width="350"
-        Icon="/Resources/logo.ico">
+        Title="Голосовая клавиатура" FontWeight="DemiBold" Height="200" Width="350" Foreground="#36363636"
+        Icon="/Resources/logo.ico" Background="#363636">
     <Grid>
         <StackPanel HorizontalAlignment="Center">
-            <Label Margin="0,20,0,10" HorizontalAlignment="Center">Добавить команду</Label>
+            <Label Margin="0,20,0,10" HorizontalAlignment="Center" Foreground="White" FontWeight="DemiBold">Добавить команду</Label>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <StackPanel Orientation="Vertical" Margin="0,0,10,0">
-                    <Label Margin="-2,0,0,0">Сочетание клавиш</Label>
+                    <Label Margin="-2,0,0,0" Foreground="White" FontWeight="DemiBold">Сочетание клавиш</Label>
                     <TextBox Text="{Binding CommandModel.Hotkey,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                             Width="122" Height="20" Margin="0,0,0,0" />
+                             Width="122" Height="22" FontSize="13" Background="#4a4a4a" BorderBrush="#5e5e5e"
+                             BorderThickness="1" FontWeight="Normal"
+                             Margin="0,0,0,0" Foreground="White">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3" />
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="10,0,0,0">
-                    <Label Margin="-2,0,0,0">Команда</Label>
+                    <Label Margin="-2,0,0,0" Foreground="White" FontWeight="DemiBold">Команда</Label>
                     <TextBox Text="{Binding CommandModel.Command,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                             Width="122" Height="20" Margin="0,0,0,0" />
+                             Width="122" Height="22" FontSize="13" Background="#4a4a4a" BorderBrush="#5e5e5e"
+                             BorderThickness="1" FontWeight="Normal"
+                             Margin="0,0,0,0" Foreground="White">
+                        <TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="3" />
+                            </Style>
+                        </TextBox.Resources>
+                    </TextBox>
                 </StackPanel>
             </StackPanel>
-            <Button HorizontalAlignment="Right" Content="Добавить команду" Margin="5, 12,0,0"
-                    Command="{Binding AddCommandCommand}">
+            <Button HorizontalAlignment="Right" Background="#4a4a4a" BorderBrush="#5e5e5e" BorderThickness="1"
+                    Foreground="White" FontWeight="DemiBold" Content="Добавить" Margin="5, 12,0,0"
+                    Command="{Binding AddCommandCommand}" Width="70" Height="22">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="3" />
+                    </Style>
+                </Button.Resources>
             </Button>
         </StackPanel>
     </Grid>

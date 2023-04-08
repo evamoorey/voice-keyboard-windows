@@ -9,5 +9,6 @@ public partial class AddCommandWindow : Window
     {
         InitializeComponent();
         DataContext = new AddCommandViewModel();
+        
     }
 }
