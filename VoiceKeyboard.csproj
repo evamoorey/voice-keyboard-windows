@@ -8,6 +8,10 @@
         <UseWindowsForms>true</UseWindowsForms>
         <CoreCompileDependsOn>$(CoreCompileDependsOn);Protobuf_Compile</CoreCompileDependsOn>
         <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
+        
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     </PropertyGroup>
 
     <ItemGroup>
