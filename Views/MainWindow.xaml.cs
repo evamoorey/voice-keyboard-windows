@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Forms.VisualStyles;
+using System.Windows.Media;
 using VoiceKeyboard.GrpcUtils;
 using VoiceKeyboard.Models;
 using VoiceKeyboard.ViewModels;
 using Forms = System.Windows.Forms;
 using Application = System.Windows.Application;
+using Color = System.Drawing.Color;
+using SystemFonts = System.Drawing.SystemFonts;
 
 namespace VoiceKeyboard.Views;
 
@@ -68,10 +73,10 @@ public partial class MainWindow : Window
         }
 
         Stream iconStream = rs.Stream;
-        icon.Icon = new System.Drawing.Icon(iconStream);
+        icon.Icon = new Icon(iconStream);
         icon.Visible = true;
         icon.Text = "Voice Keyboard";
-        
+
 
         icon.ContextMenuStrip = new Forms.ContextMenuStrip();
         icon.ContextMenuStrip.Items.Add("Добавить команду", null, (_, _) => new AddCommandWindow().ShowDialog());
@@ -97,6 +102,14 @@ public partial class MainWindow : Window
 
         ((Forms.ToolStripMenuItem)icon.ContextMenuStrip.Items[4]).Checked = true;
 
+        foreach (Forms.ToolStripItem vItem in icon.ContextMenuStrip.Items)
+        {
+            vItem.BackColor = ColorTranslator.FromHtml("#363636");
+            vItem.ForeColor = Color.White;
+        }
+
+        icon.ContextMenuStrip.Font = new Font(SystemFonts.DialogFont.FontFamily, SystemFonts.DefaultFont.Size,
+            System.Drawing.FontStyle.Bold);
         this.icon = icon;
     }
 
