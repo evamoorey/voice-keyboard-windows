@@ -3,29 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="Голосовая клавиатура" Height="200" Width="400"
-        Icon="/Resources/logo.ico">
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <Label>Голосовая клавиатура  v1.0.0</Label>
-            <StackPanel Orientation="Horizontal">
-                <Button Click="AddCommandButton_OnClick">Добавить команду</Button>
-                <Button Click="CommandsButton_OnClick">Введённые команды</Button>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Импорт команд" Command="{Binding ImportCommandsCommand}"></Button>
-                <Button Content="Экспорт команд" Command="{Binding ExportCommandsCommand}"></Button>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <Label Margin="0,0,0,0" Content="Микрофон включен"></Label>
-                <CheckBox VerticalAlignment="Center" IsChecked="{Binding AppStateModel.IsMicrophoneOn}"
-                          Command="{Binding ChangeMicrophoneStatusCommand}">
-                </CheckBox>
-            </StackPanel>
-        </StackPanel>
-        <!-- <Image Source="/Resources/logo.jpg"></Image> -->
-    </Grid>
+        mc:Ignorable="d" Visibility="Hidden"
+        Title="Голосовая клавиатура" Height="200" Width="400" Foreground="#363636"
+        Icon="/Resources/logo.ico" Background="#363636" FontWeight="SemiBold">
 </Window>
