@@ -26,12 +26,23 @@ public class MainWindowViewModel : ViewModelBase
             RaisePropertyChanged();
         }
     }
+    
+    public CommandModel CommandModel
+    {
+        get => commandModel;
+        set
+        {
+            commandModel = value;
+            RaisePropertyChanged();
+        }
+    }
 
 
     public MainWindowViewModel()
     {
         commandsClient = CommandsGrpcClient.GetInstance();
         appControlClient = AppControlGrpcClient.GetInstance();
+        CreateModels();
         CreateCommands();
         UpdateCommandsList();
     }
@@ -39,7 +50,10 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand ChangeMicrophoneStatusCommand { get; private set; }
     public ICommand ImportCommandsCommand { get; private set; }
     public ICommand ExportCommandsCommand { get; private set; }
-
+    private void CreateModels()
+    {
+        CommandModel = new CommandModel("", "");
+    }
 
     private void CreateCommands()
     {
