@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using VoiceKeyboard.GrpcUtils;
+using VoiceKeyboard.Models;
 using VoiceKeyboard.ViewModels;
 using Forms = System.Windows.Forms;
 using Application = System.Windows.Application;
@@ -16,6 +17,7 @@ namespace VoiceKeyboard.Views;
 public partial class MainWindow : Window
 {
     private Forms.NotifyIcon? icon;
+    private MainWindowViewModel mainWindowViewModel;
 
     public MainWindow()
     {
@@ -23,7 +25,8 @@ public partial class MainWindow : Window
         StartServer();
         CreateIcon();
 
-        DataContext = new MainWindowViewModel();
+        mainWindowViewModel = new MainWindowViewModel();
+        DataContext = mainWindowViewModel;
 
         Closed += OnShutdown;
     }
@@ -68,12 +71,31 @@ public partial class MainWindow : Window
         icon.Icon = new System.Drawing.Icon(iconStream);
         icon.Visible = true;
         icon.Text = "Voice Keyboard";
-        icon.DoubleClick += (_, _) => OpenWindow();
+        
 
         icon.ContextMenuStrip = new Forms.ContextMenuStrip();
-        icon.ContextMenuStrip.Items.Add("Открыть", null, (_, _) => OpenWindow());
+        icon.ContextMenuStrip.Items.Add("Добавить команду", null, (_, _) => new AddCommandWindow().ShowDialog());
+        icon.ContextMenuStrip.Items.Add("Введённые команды", null, (_, _) => new CommandsWindow().ShowDialog());
+        icon.ContextMenuStrip.Items.Add("Импорт команд", null,
+            (_, _) => mainWindowViewModel.ImportCommandsCommand.Execute(null));
+        icon.ContextMenuStrip.Items.Add("Экспорт команд", null,
+            (_, _) => mainWindowViewModel.ExportCommandsCommand.Execute(null));
+        icon.ContextMenuStrip.Items.Add("Распознавание команд", null, (_, _) =>
+        {
+            if (((Forms.ToolStripMenuItem)icon.ContextMenuStrip.Items[4]).Checked)
+            {
+                mainWindowViewModel.ChangeMicrophoneStatusCommand.Execute(false);
+                ((Forms.ToolStripMenuItem)icon.ContextMenuStrip.Items[4]).Checked = false;
+            }
+            else
+            {
+                mainWindowViewModel.ChangeMicrophoneStatusCommand.Execute(true);
+                ((Forms.ToolStripMenuItem)icon.ContextMenuStrip.Items[4]).Checked = true;
+            }
+        });
         icon.ContextMenuStrip.Items.Add("Закрыть", null, (_, _) => Close());
 
+        ((Forms.ToolStripMenuItem)icon.ContextMenuStrip.Items[4]).Checked = true;
 
         this.icon = icon;
     }
@@ -84,16 +106,8 @@ public partial class MainWindow : Window
         {
             Hide();
         }
-        
-        base.OnStateChanged(e);
-    }
 
-    private void OpenWindow()
-    {
-        Visibility = Visibility.Visible;
-        Show();
-        WindowState = WindowState.Normal;
-        Activate();
+        base.OnStateChanged(e);
     }
 
     private void DisposeIcon()
@@ -125,15 +139,5 @@ public partial class MainWindow : Window
             p.Kill();
             p.WaitForExit();
         }
-    }
-
-    private void AddCommandButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        new AddCommandWindow().ShowDialog();
-    }
-
-    private void CommandsButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        new CommandsWindow().ShowDialog();
     }
 }
