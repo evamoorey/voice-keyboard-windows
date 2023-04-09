@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms.VisualStyles;
@@ -24,10 +26,14 @@ public partial class MainWindow : Window
     private Forms.NotifyIcon? icon;
     private MainWindowViewModel mainWindowViewModel;
 
+    private const string DefaultServerFilePath = "Server/vk_server.exe";
+
     public MainWindow()
     {
         InitializeComponent();
+
         StartServer();
+
         CreateIcon();
 
         mainWindowViewModel = new MainWindowViewModel();
@@ -46,19 +52,52 @@ public partial class MainWindow : Window
     {
         Trace.WriteLine("starting server");
 
+        try
+        {
+            TryRunServer(DefaultServerFilePath);
+        }
+        catch (Exception)
+        {
+            try
+            {
+                TryRunServer(BuildPathToServer());
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Server of Voice Keyboard is missing");
+                Environment.Exit(-1);
+            }
+        }
+    }
+
+    private string BuildPathToServer()
+    {
+        string serverFileFolder = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Temp", ".net", "VoiceKeyboard");
+        string[] files = Directory.GetDirectories(serverFileFolder);
+
+        string resourceDir = files.Select(folder => new DirectoryInfo(folder))
+            .MaxBy(dir => dir.CreationTime)
+            .FullName;
+
+        return Path.Combine(resourceDir, "Server", "vk_server.exe");
+    }
+
+    private void TryRunServer(string path)
+    {
+        var info = new ProcessStartInfo(path)
+        {
+            Arguments = "-p windows",
+            RedirectStandardOutput = false,
+            RedirectStandardInput = false,
+            CreateNoWindow = true,
+            UseShellExecute = false
+        };
+
         var p = new Process();
-
-        var info =
-            new ProcessStartInfo("Server/vk_server.exe");
-        info.Arguments = "-p windows";
-        info.RedirectStandardOutput = false;
-        info.RedirectStandardInput = false;
-        info.CreateNoWindow = true;
-        info.UseShellExecute = false;
         p.StartInfo = info;
-
         p.Start();
-
         WaitServerForStart();
     }
 
